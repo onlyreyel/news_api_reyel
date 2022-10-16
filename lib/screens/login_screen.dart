@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'GetX Login',
+          'Blog News',
         ),
       ),
       body: Container(

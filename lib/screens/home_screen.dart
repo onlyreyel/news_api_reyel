@@ -1,13 +1,12 @@
 import 'package:blog_news_api/core/controllers/home_controller.dart';
 import 'package:blog_news_api/core/controllers/login_controllers.dart';
+import 'package:blog_news_api/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 
 class HomeScreen extends StatelessWidget {
-
-
   static String routeName = "/home_screen";
 
   final LoginController _loginController = Get.find();
@@ -19,12 +18,9 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Dashboard',
+          'News',
         ),
-        actions: [IconButton(onPressed: (){
-
-          
-        }, icon: Icon(Icons.logout))],
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.logout))],
       ),
       body: Container(
         padding: EdgeInsets.all(16),
@@ -32,23 +28,29 @@ class HomeScreen extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Obx(
-                    () => ListView.builder(
+                () => ListView.builder(
                   itemCount: _homeController.userListData.length,
-                  itemBuilder: (context, index) => ListTile(
-                    title: Text(
-                      _homeController.userListData[index].title ?? "",
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: (){
+
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen()));
+                    },
+                    child: ListTile(
+                      title: Text(
+                        _homeController.userListData[index].title ?? "",
+                      ),
+                      subtitle: Text(
+                        _homeController.userListData[index].subTitle ?? "",
+                      ),
+                      leading: IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            _homeController.deleteItem(index);
+                          }),
                     ),
-                    subtitle: Text(
-                      _homeController.userListData[index].subTitle ?? "",
-                    ),
-                    leading: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          _homeController.deleteItem(index);
-                        }),
                   ),
                 ),
               ),
